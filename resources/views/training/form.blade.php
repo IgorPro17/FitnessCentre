@@ -32,7 +32,7 @@
         </div>
         <div class="field">
             <label class="label">Дата и время:</label>
-            <input name="time" type="datetime-local">
+            <input name="time" type="datetime-local" min="07:00" max="23:00">
             @if ($errors->has('time'))
                 <span class="is-danger">{{ $errors->first('time') }}</span>
             @endif
