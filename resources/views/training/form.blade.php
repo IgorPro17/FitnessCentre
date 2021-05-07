@@ -2,6 +2,13 @@
 
 @section('content')
     <h4 class="title is-4">Запись на тренировку</h4>
+
+    @isset($message)
+        <div class="notification is-danger">
+            {{ $message }}
+        </div>
+    @endisset
+
     <form method="POST" action="{{ route('training.store') }}">
         @csrf
         <div class="field">
@@ -32,7 +39,7 @@
         </div>
         <div class="field">
             <label class="label">Дата и время:</label>
-            <input name="time" type="time" min="07:00" max="23:00" step="3600000">
+            <input name="time" type="datetime-local">
             @if ($errors->has('time'))
                 <span class="is-danger">{{ $errors->first('time') }}</span>
             @endif

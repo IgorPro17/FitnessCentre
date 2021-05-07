@@ -26,6 +26,22 @@ class TrainingController extends Controller
 
     public function store(TrainingRequest $request)
     {
+        $prices = Price::get();
+        $coachs = Coach::get();
+
+        $time = substr(date($request['time']), -5);;
+        $hours = (int)substr($time, 0, 2);
+        $minuts = (int)substr($time, -2);
+        if($hours < 7 || $hours > 22){
+            $message = "Время работы фитнес-центра с 7:00 до 23:00. Выберите другое время для тренировки.";
+            return view('training.form', compact('prices', 'coachs', 'message'));
+        }
+
+        if($minuts != 0){
+            $message = "Время записи на тренировку должно быть кратно часу. Выберите другое время для тренировки.";
+            return view('training.form', compact('prices', 'coachs', 'message'));
+        }
+
         DB::insert('insert into trainings (user_id, coach_id, price_id, time) values (?, ?, ?, ?)', [Auth::user()->id, $request->coach_id, $request->price_id, $request->time]);
         return redirect()->route('home');
     }
